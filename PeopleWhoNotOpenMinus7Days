@@ -1,0 +1,13 @@
+SELECT SubscriberKey, EmailAddress
+FROM _ListSubscribers
+WHERE SubscriberKey NOT IN (
+    SELECT SubscriberKey
+    FROM _Open
+    WHERE IsUnique = 1 
+    AND EventDate >= DATEADD(day, -7, GETDATE())
+)
+
+This query retrieves the SubscriberKey and EmailAddress of all subscribers who are not in the list of subscribers who opened an email in the last 60 days. The query uses the _ListSubscriber data view to get the list of all subscribers, and filter out subscribers that are not in the list of subscribers who opened an email in the last 60 days by using a NOT IN clause.
+
+You can use this query in the SOQL query activity in Automation Studio to retrieve the data and use it for your purpose.
+Please let me know if there is anything else I can help you with.
