@@ -1,0 +1,20 @@
+SELECT j.JobID,
+j.EmailName,
+s.EmailAddress,
+c.SubscriberKey,
+c.LinkName,
+c.LinkContent,
+c.IsUnique,
+j.DeliveredTime as SendTime,
+c.EventDate as ClickTime
+FROM [_Job] j
+LEFT JOIN [_Click] c
+ON j.JobID = c.JobID
+LEFT JOIN [_Subscribers] s
+ON c.SubscriberKey = s.SubscriberKey
+WHERE c.EventDate > dateadd(d,-7,getdate())
+
+This will then output a dataset of people who have clicked on an email in the last 7 days.
+This list will show click information at the Link level, meaning if the person clicked
+multiple times on the email on multiple links, each one of those clicks will be in
+this sql dataset output
