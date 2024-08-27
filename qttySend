@@ -1,0 +1,19 @@
+SELECT
+    j.JobID,
+    j.JobStatus,
+    j.JobType,
+    j.EmailName,
+    j.EmailSubject,
+    COUNT(s.SubscriberID) AS QuantidadeEnvios
+FROM
+    _Job j
+LEFT JOIN
+    _Sent s ON j.JobID = s.JobID
+WHERE
+    CONVERT(date, j.SchedTime) >= DATEADD(day, -30, CONVERT(date, GETDATE()))
+GROUP BY
+    j.JobID,
+    j.JobStatus,
+    j.JobType,
+    j.EmailName,
+    j.EmailSubject
